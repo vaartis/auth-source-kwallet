@@ -1,0 +1,39 @@
+* kwallet-auth-source
+
+  This package allows one to use KWallet as an auth-source. While KWallet may not be the best thing ever,
+  it works pretty well with KDE, so I decided to make this package.
+
+** Usage
+
+   If using [[https://github.com/raxod502/straight.el][straight.el]], you may install the package directly from this repository with the following code:
+
+   #+BEGIN_SRC elisp
+   (use-package kwallet-auth-source
+     :straight (kwallet-auth-source
+                :host github
+                :repo "vaartis/kwallet-auth-source"
+                :files ("*.el"))
+     :config
+     (kwallet-auth-source-enable))
+   #+END_SRC
+
+   To enable the auth source, use ~(kwallet-auth-source-enable)~ (as in the example above with use-package).
+
+** Configuration
+
+   The following parameters can be customized:
+
+   - ~kwallet-auth-source-wallet~ :: Default value: "Passwords"
+
+     The wallet to use.
+   - ~kwallet-auth-source-folder~ :: Default value: "Passwords"
+
+     The folder to use in the wallet.
+   - ~kwallet-auth-source-key-separator~ :: Default value: "@"
+
+     The value used to separate the name and the host when looking up
+     the key key in the wallet.
+
+   So, for example, with the default settings, for hostname of "example.com" and username of "test",
+   the secret will be looked up in the Passwords wallet, Passwords directory, Passwords folder under the name
+   "test@example.com".
