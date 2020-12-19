@@ -1,12 +1,15 @@
-;;; kwallet-auth-source.el --- KWallet integration for auth-source
+;;; kwallet-auth-source.el --- KWallet integration for auth-source -*- lexical-binding: t; -*-
 
 ;;; Copyright (C) 2020 Ekaterina Vaartis
+;;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;;; Author: Ekaterina Vaartis <vaartis@kotobank.ch>
 ;;; Created: 13 Dec 2020
 ;;; URL: https://github.com/vaartis/kwallet-auth-source
 
 ;;; Package-Requires: ((emacs "24.4"))
+
+;;; Package-Version: 1.0.0
 
 ;;; Commentary:
 ;;; This package adds kwallet support to auth-source by calling
