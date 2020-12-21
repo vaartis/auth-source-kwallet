@@ -9,7 +9,7 @@
 
 ;;; Package-Requires: ((emacs "24.4"))
 
-;;; Package-Version: 1.0.0
+;;; Version: 1.0.0
 
 ;;; Commentary:
 ;;; This package adds kwallet support to auth-source by calling
@@ -41,7 +41,7 @@
   :group 'kwallet-auth-source)
 
 (cl-defun kwallet-auth-source--kwallet-search (&rest spec
-                                                     &key backend type host user port
+                                                     &key _backend _type host user _port
                                                      &allow-other-keys)
   "Searche KWallet for the specified user and host.
 SPEC, BACKEND, TYPE, HOST, USER and PORT are as required by auth-source."
