@@ -49,7 +49,7 @@ SPEC, BACKEND, TYPE, HOST, USER and PORT are as required by auth-source."
                      (shell-command-to-string
                       (concat "kwallet-query " kwallet-auth-source-wallet
                               " -f " kwallet-auth-source-folder
-                              " -r " (concat user kwallet-auth-source-key-separator host))))))
+                              " -r " (shell-quote-argument (concat user kwallet-auth-source-key-separator host)))))))
     (list (list :user user
                 :secret got-secret))))
 
@@ -60,19 +60,19 @@ ENTRY is as required by auth-source."
     (auth-source-backend-parse-parameters
      entry
      (auth-source-backend
-      :source "."
+      :source "KWallet"
       :type 'kwallet
       :search-function #'kwallet-auth-source--kwallet-search))))
 
 ;;;###autoload
 (defun kwallet-auth-source-enable ()
   "Enable the kwallet auth source."
+
+  (advice-add 'auth-source-backend-parse
+              :before-until
+              #'kwallet-auth-source--kwallet-backend-parse)
   (add-to-list 'auth-sources 'kwallet)
   (auth-source-forget-all-cached))
-
-(advice-add 'auth-source-backend-parse
-            :before-until
-            #'kwallet-auth-source--kwallet-backend-parse)
 
 (provide 'kwallet-auth-source)
 ;;; kwallet-auth-source.el ends here
