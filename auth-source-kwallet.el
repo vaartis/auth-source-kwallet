@@ -1,11 +1,11 @@
-;;; kwallet-auth-source.el --- KWallet integration for auth-source -*- lexical-binding: t; -*-
+;;; auth-source-kwallet.el --- KWallet integration for auth-source -*- lexical-binding: t; -*-
 
 ;;; Copyright (C) 2020 Ekaterina Vaartis
 ;;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;;; Author: Ekaterina Vaartis <vaartis@kotobank.ch>
 ;;; Created: 13 Dec 2020
-;;; URL: https://github.com/vaartis/kwallet-auth-source
+;;; URL: https://github.com/vaartis/auth-source-kwallet
 
 ;;; Package-Requires: ((emacs "24.4"))
 
@@ -19,41 +19,41 @@
 
 (require 'auth-source)
 
-(defgroup kwallet-auth-source nil
+(defgroup auth-source-kwallet nil
   "KWallet auth source settings."
   :group 'external
-  :tag "kwallet-auth-source"
+  :tag "auth-source-kwallet"
   :prefix "kwallet-")
 
-(defcustom kwallet-auth-source-wallet "Passwords"
+(defcustom auth-source-kwallet-wallet "Passwords"
   "KWallet wallet to use."
   :type 'string
-  :group 'kwallet-auth-source)
+  :group 'auth-source-kwallet)
 
-(defcustom kwallet-auth-source-folder "Passwords"
+(defcustom auth-source-kwallet-folder "Passwords"
   "KWallet folder to use."
   :type 'string
-  :group 'kwallet-auth-source)
+  :group 'auth-source-kwallet)
 
-(defcustom kwallet-auth-source-key-separator "@"
+(defcustom auth-source-kwallet-key-separator "@"
   "Separator to use between the user and the host for KWallet."
   :type 'string
-  :group 'kwallet-auth-source)
+  :group 'auth-source-kwallet)
 
-(cl-defun kwallet-auth-source--kwallet-search (&rest spec
+(cl-defun auth-source-kwallet--kwallet-search (&rest spec
                                                      &key _backend _type host user _port
                                                      &allow-other-keys)
   "Searche KWallet for the specified user and host.
 SPEC, BACKEND, TYPE, HOST, USER and PORT are as required by auth-source."
   (let ((got-secret (string-trim
                      (shell-command-to-string
-                      (concat "kwallet-query " kwallet-auth-source-wallet
-                              " -f " kwallet-auth-source-folder
-                              " -r " (shell-quote-argument (concat user kwallet-auth-source-key-separator host)))))))
+                      (concat "kwallet-query " auth-source-kwallet-wallet
+                              " -f " auth-source-kwallet-folder
+                              " -r " (shell-quote-argument (concat user auth-source-kwallet-key-separator host)))))))
     (list (list :user user
                 :secret got-secret))))
 
-(defun kwallet-auth-source--kwallet-backend-parse (entry)
+(defun auth-source-kwallet--kwallet-backend-parse (entry)
   "Parse the entry to check if this is a kwallet entry.
 ENTRY is as required by auth-source."
   (when (eq entry 'kwallet)
@@ -62,17 +62,17 @@ ENTRY is as required by auth-source."
      (auth-source-backend
       :source "KWallet"
       :type 'kwallet
-      :search-function #'kwallet-auth-source--kwallet-search))))
+      :search-function #'auth-source-kwallet--kwallet-search))))
 
 ;;;###autoload
-(defun kwallet-auth-source-enable ()
+(defun auth-source-kwallet-enable ()
   "Enable the kwallet auth source."
 
   (advice-add 'auth-source-backend-parse
               :before-until
-              #'kwallet-auth-source--kwallet-backend-parse)
+              #'auth-source-kwallet--kwallet-backend-parse)
   (add-to-list 'auth-sources 'kwallet)
   (auth-source-forget-all-cached))
 
-(provide 'kwallet-auth-source)
-;;; kwallet-auth-source.el ends here
+(provide 'auth-source-kwallet)
+;;; auth-source-kwallet.el ends here
