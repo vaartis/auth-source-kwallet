@@ -35,6 +35,9 @@
 
      The value used to separate the name and the host when looking up
      the key key in the wallet.
+   - ~auth-source-kwallet-executable~ :: Default value: "kwallet-query"
+
+     Executable used to query kwallet.
 
    So, for example, with the default settings, for hostname of "example.com" and username of "test",
    the secret will be looked up in the Passwords wallet, Passwords directory, Passwords folder under the name
