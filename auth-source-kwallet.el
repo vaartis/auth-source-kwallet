@@ -40,18 +40,28 @@
   :type 'string
   :group 'auth-source-kwallet)
 
+(defcustom auth-source-kwallet-executable "kwallet-query"
+  "Executable used to query kwallet."
+  :type 'string
+  :group 'auth-source-kwallet)
+
 (cl-defun auth-source-kwallet--kwallet-search (&rest spec
                                                      &key _backend _type host user _port
                                                      &allow-other-keys)
   "Searche KWallet for the specified user and host.
 SPEC, BACKEND, TYPE, HOST, USER and PORT are as required by auth-source."
-  (let ((got-secret (string-trim
-                     (shell-command-to-string
-                      (concat "kwallet-query " auth-source-kwallet-wallet
-                              " -f " auth-source-kwallet-folder
-                              " -r " (shell-quote-argument (concat user auth-source-kwallet-key-separator host)))))))
-    (list (list :user user
-                :secret got-secret))))
+  (if (executable-find auth-source-kwallet-executable)
+      (let ((got-secret (string-trim
+                         (shell-command-to-string
+                          (format "%s %s -f %s -r %s"
+                                  auth-source-kwallet-executable
+                                  auth-source-kwallet-wallet
+                                  auth-source-kwallet-folder
+                                  (shell-quote-argument (concat user auth-source-kwallet-key-separator host)))))))
+        (list (list :user user
+                    :secret got-secret)))
+    ;; If not executable was found, return nil and show a warning
+    (warn (format "`auth-source-kwallet': Could not find executable '%s' to query KWallet"))))
 
 (defun auth-source-kwallet--kwallet-backend-parse (entry)
   "Parse the entry to check if this is a kwallet entry.
