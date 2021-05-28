@@ -40,5 +40,5 @@
      Executable used to query kwallet.
 
    So, for example, with the default settings, for hostname of "example.com" and username of "test",
-   the secret will be looked up in the Passwords wallet, Passwords directory, Passwords folder under the name
+   the secret will be looked up in the Passwords wallet, Passwords folder, under the name
    "test@example.com".
