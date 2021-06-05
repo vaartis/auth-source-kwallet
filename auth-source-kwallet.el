@@ -12,8 +12,8 @@
 ;;; Version: 1.0.0
 
 ;;; Commentary:
-;;; This package adds kwallet support to auth-source by calling
-;;; kwallet-query from the command line.
+;; This package adds kwallet support to auth-source by calling
+;; kwallet-query from the command line.
 
 ;;; Code:
 
@@ -85,4 +85,5 @@ ENTRY is as required by auth-source."
   (auth-source-forget-all-cached))
 
 (provide 'auth-source-kwallet)
+
 ;;; auth-source-kwallet.el ends here

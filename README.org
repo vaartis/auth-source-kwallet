@@ -1,6 +1,7 @@
 * kwallet-auth-source
 
   [[https://melpa.org/#/auth-source-kwallet][file:https://melpa.org/packages/auth-source-kwallet-badge.svg]]
+  [[https://melpa.org/#/auth-source-kwallet][file:https://stable.melpa.org/packages/auth-source-kwallet-badge.svg]]
 
   This package allows one to use KWallet as an auth-source. While KWallet may not be the best thing ever,
   it works pretty well with KDE, so I decided to make this package.
