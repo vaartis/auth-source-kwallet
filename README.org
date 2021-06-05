@@ -8,19 +8,15 @@
 
 ** Usage
 
-   If using [[https://github.com/raxod502/straight.el][straight.el]], you may install the package directly from this repository with the following code:
+   If you are using [[https://github.com/jwiegley/use-package][use-package]], you may install the package using with the following code:
 
    #+BEGIN_SRC elisp
-   (use-package kwallet-auth-source
-     :straight (kwallet-auth-source
-                :host github
-                :repo "vaartis/kwallet-auth-source"
-                :files ("*.el"))
-     :config
-     (kwallet-auth-source-enable))
+     (use-package kwallet-auth-source
+       :config
+       (kwallet-auth-source-enable))
    #+END_SRC
 
-   To enable the auth source, use ~(kwallet-auth-source-enable)~ (as in the example above with use-package).
+   To enable the auth source, use ~(kwallet-auth-source-enable)~, like in the example above with use-package.
 
 ** Configuration
 
