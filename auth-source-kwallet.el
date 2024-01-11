@@ -51,17 +51,22 @@
   "Searche KWallet for the specified user and host.
 SPEC, BACKEND, TYPE, HOST, USER and PORT are as required by auth-source."
   (if (executable-find auth-source-kwallet-executable)
-      (let ((got-secret (string-trim
-                         (shell-command-to-string
-                          (format "%s %s -f %s -r %s"
-                                  auth-source-kwallet-executable
-                                  auth-source-kwallet-wallet
-                                  auth-source-kwallet-folder
-                                  (shell-quote-argument (concat user auth-source-kwallet-key-separator host)))))))
-        (list (list :user user
-                    :secret got-secret)))
+      (let ((output-buffer (generate-new-buffer "*kwallet-output*")))
+        (unwind-protect
+            (let ((exit-status (call-process auth-source-kwallet-executable
+                                             nil output-buffer nil
+                                             auth-source-kwallet-wallet
+                                             "-f" auth-source-kwallet-folder
+                                             "-r" (concat user auth-source-kwallet-key-separator host))))
+              (if (zerop exit-status)
+                  (with-current-buffer output-buffer
+                    (list (list :user user
+                                :secret (string-trim (buffer-string)))))
+                ;; Any non-zero exit status indicates a failure, so return nil.
+                nil))
+          (kill-buffer output-buffer)))
     ;; If not executable was found, return nil and show a warning
-    (warn (format "`auth-source-kwallet': Could not find executable '%s' to query KWallet"))))
+    (warn (format "`auth-source-kwallet': Could not find executable '%s' to query KWallet", auth-source-kwallet-executable))))
 
 (defun auth-source-kwallet--kwallet-backend-parse (entry)
   "Parse the entry to check if this is a kwallet entry.
