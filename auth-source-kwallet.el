@@ -9,7 +9,7 @@
 
 ;;; Package-Requires: ((emacs "24.4"))
 
-;;; Version: 1.0.0
+;;; Version: 0.0.2
 
 ;;; Commentary:
 ;; This package adds kwallet support to auth-source by calling
